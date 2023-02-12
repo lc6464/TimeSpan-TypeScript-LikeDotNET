@@ -1,12 +1,12 @@
 {
   "name": "timespan",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "timespan",
   "main": "timespan.js",
   "types": "timespan.d.ts",
   "type": "module",
   "author": {
-    "name": ""
+    "name": "LC"
   },
   "scripts": {
     "build": "tsc --build",
