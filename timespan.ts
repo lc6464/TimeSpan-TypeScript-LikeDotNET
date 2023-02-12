@@ -2,15 +2,15 @@
 
 export default class TimeSpan {
 	public static readonly millisecondsPerSecond = 1000;
-	public static readonly millisecondsPerMinute = TimeSpan.millisecondsPerSecond * 60;		// 60,000
-	public static readonly millisecondsPerHour = TimeSpan.millisecondsPerMinute * 60;		// 3,600,000
-	public static readonly millisecondsPerDay = TimeSpan.millisecondsPerHour * 24;			// 86,400,000
+	public static readonly millisecondsPerMinute = 60000;		// TimeSpan.millisecondsPerSecond * 60
+	public static readonly millisecondsPerHour = 3600000;		// TimeSpan.millisecondsPerMinute * 60
+	public static readonly millisecondsPerDay = 86400000;		// TimeSpan.millisecondsPerHour * 24
 
 	/*private static readonly maxSeconds = Number.MAX_SAFE_INTEGER / TimeSpan.millisecondsPerSecond;
 	private static readonly minSeconds = Number.MIN_SAFE_INTEGER / TimeSpan.millisecondsPerSecond;*/
 
-	private static readonly maxMilliseconds = Number.MAX_SAFE_INTEGER;
-	private static readonly minMilliseconds = Number.MIN_SAFE_INTEGER;
+	private static readonly maxMilliseconds = Number.MAX_SAFE_INTEGER;	// 9007199254740991
+	private static readonly minMilliseconds = Number.MIN_SAFE_INTEGER;	// -9007199254740991
 
 	//private static readonly millisecondsPerTenthSecond = 100;
 
