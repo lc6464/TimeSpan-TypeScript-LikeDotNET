@@ -53,15 +53,21 @@ export default class TimeSpan {
 	constructor(hours: number, minutes: number, seconds: number);
 	constructor(days: number, hours: number, minutes: number, seconds: number, milliseconds?: number);
 	constructor(millisecondsOrDaysOrHours?: number, hoursOrMinutes?: number, minutesOrSeconds?: number, seconds?: number, milliseconds?: number) {
-		if (millisecondsOrDaysOrHours === null || millisecondsOrDaysOrHours === undefined) { // ÖØÔØ0£¨ÊäÈëÎª¿Õ£©
+		if (Number.isNaN(millisecondsOrDaysOrHours) || Number.isNaN(hoursOrMinutes) || Number.isNaN(minutesOrSeconds) || Number.isNaN(seconds) || Number.isNaN(milliseconds)) {
+			throw new Error('At least one of the arguments is not a number.');
+		}
+
+		if (millisecondsOrDaysOrHours === null || millisecondsOrDaysOrHours === undefined) { // é‡è½½0ï¼ˆè¾“å…¥ä¸ºç©ºï¼‰
 			this._value = 0;
-		} else if (seconds !== null && seconds !== undefined) { // ÖØÔØ2£¨´øÌì£©
+		} else if (seconds !== null && seconds !== undefined) { // é‡è½½2ï¼ˆå¸¦å¤©ï¼‰
+			if (hoursOrMinutes === null || hoursOrMinutes === undefined || minutesOrSeconds === null || minutesOrSeconds === undefined) throw new Error('The argument "hours" or "minutes" is null or undefined.');
 			this._value = Math.trunc(milliseconds ?? 0) + Math.trunc(seconds) * TimeSpan.millisecondsPerSecond + Math.trunc(minutesOrSeconds) * TimeSpan.millisecondsPerMinute + Math.trunc(hoursOrMinutes) * TimeSpan.millisecondsPerHour + Math.trunc(millisecondsOrDaysOrHours) * TimeSpan.millisecondsPerDay;
-		} else if (minutesOrSeconds !== null && minutesOrSeconds !== undefined) { // ÖØÔØ1£¨²»´øÌì£©
-			this._value = Math.trunc(seconds) + Math.trunc(minutesOrSeconds) * TimeSpan.millisecondsPerSecond + Math.trunc(hoursOrMinutes) * TimeSpan.millisecondsPerMinute + Math.trunc(millisecondsOrDaysOrHours) * TimeSpan.millisecondsPerHour;
-		} else if (hoursOrMinutes !== null && hoursOrMinutes !== undefined) { // ´«Èë2¸ö²ÎÊı£¬²»ÖªÒª¸ÉÉ¶
+		} else if (minutesOrSeconds !== null && minutesOrSeconds !== undefined) { // é‡è½½1ï¼ˆä¸å¸¦å¤©ï¼‰
+			if (hoursOrMinutes === null || hoursOrMinutes === undefined) throw new Error('The argument "hours" is null or undefined.');
+			this._value = Math.trunc(minutesOrSeconds) * TimeSpan.millisecondsPerSecond + Math.trunc(hoursOrMinutes) * TimeSpan.millisecondsPerMinute + Math.trunc(millisecondsOrDaysOrHours) * TimeSpan.millisecondsPerHour;
+		} else if (hoursOrMinutes !== null && hoursOrMinutes !== undefined) { // ä¼ å…¥2ä¸ªå‚æ•°ï¼Œä¸çŸ¥è¦å¹²å•¥
 			throw new Error(`Cannot find an overload for constructor and the argument count: "${arguments.length}".`);
-		} else { // ÖØÔØ0£¨ºÁÃë£©
+		} else { // é‡è½½0ï¼ˆæ¯«ç§’ï¼‰
 			this._value = Math.trunc(millisecondsOrDaysOrHours);
 		}
 
@@ -96,7 +102,7 @@ export default class TimeSpan {
 		return Math.trunc((this._value / TimeSpan.millisecondsPerSecond) % 60);
 	}
 	public get milliseconds() {
-		return this._value;
+		return Math.trunc(this._value % 1000);
 	}
 
 	public add(ts: TimeSpan) {
@@ -137,5 +143,13 @@ export default class TimeSpan {
 		const result = this._value - ts._value;
 		TimeSpan.ensureNoOverflow(result);
 		return new TimeSpan(result);
+	}
+
+
+	public valueOf() {
+		return this._value;
+	}
+	public toString() {
+		return `${this.days}.${this.hours}:${this.minutes}:${this.seconds}.${this.milliseconds}`;
 	}
 }
