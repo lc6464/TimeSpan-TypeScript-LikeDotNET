@@ -5,7 +5,8 @@
 		"lib": ["es6"],
 		"sourceMap": true,
 		"forceConsistentCasingInFileNames": true,
-		"strict": true
+		"strict": true,
+		"declaration": true
 	},
 	"exclude": [
 		"node_modules"

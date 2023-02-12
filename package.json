@@ -3,6 +3,8 @@
   "version": "0.0.0",
   "description": "timespan",
   "main": "timespan.js",
+  "types": "timespan.d.ts",
+  "type": "module",
   "author": {
     "name": ""
   },

@@ -510,3 +510,4 @@ FodyWeavers.xsd
 # 编译结果
 /*.js
 /*.js.map
+/*.d.ts
